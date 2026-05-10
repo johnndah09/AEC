@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMBASSADORS EDUCATIONAL COMPLEX - Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #0091da;
+            --light-blue: #87ceeb;
+            --sky-blue: #e0f4ff;
+            --white: #ffffff;
+            --dark-text: #1a1a1a;
+            --light-gray: #f5f5f5;
+            --border-gray: #e0e0e0;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --shadow: 0 2px 8px rgba(0, 145, 218, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 145, 218, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--sky-blue) 0%, var(--white) 100%);
+            min-height: 100vh;
+            color: var(--dark-text);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+            gap: 0;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary-blue) 0%, #0077b6 100%);
+            padding: 30px 20px;
+            color: var(--white);
+            box-shadow: 4px 0 12px rgba(0, 145, 218, 0.2);
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            width: 280px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo h1 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            font-size: 11px;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .nav-menu li {
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            padding-left: 20px;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            background: var(--white);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--sky-blue);
+        }
+
+        .header h2 {
+            font-size: 32px;
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 10px 16px;
+            border: 2px solid var(--border-gray);
+            border-radius: 6px;
+            font-size: 14px;
+            width: 220px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px var(--sky-blue);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: var(--sky-blue);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* DASHBOARD GRID */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #666;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            color: var(--success);
+        }
+
+        /* MAIN SECTIONS */
+        .section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--sky-blue);
+        }
+
+        .section-header h3 {
+            font-size: 20px;
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #0077b6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 145, 218, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--sky-blue);
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--white);
+        }
+
+        .btn-warning:hover {
+            background: #d68910;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        thead {
+            background: var(--sky-blue);
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-gray);
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: var(--sky-blue);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--white);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--sky-blue);
+            padding-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-text);
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border-gray);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px var(--sky-blue);
+        }
+
+        .close {
+            color: #999;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--primary-blue);
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border-gray);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            color: var(--primary-blue);
+        }
+
+        .tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* FORM LAYOUT */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-full {
+            grid-column: 1 / -1;
+        }
+
+        /* ATTENDANCE CHART */
+        .attendance-chart {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .attendance-day {
+            text-align: center;
+            padding: 10px;
+            background: var(--light-gray);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .attendance-day.present {
+            background: #d4edda;
+            color: #155724;
+            font-weight: 600;
+        }
+
+        .attendance-day.absent {
+            background: #f8d7da;
+            color: #721c24;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .header-right {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+        }
+
+        .success-message {
+            padding: 14px 20px;
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid var(--success);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .stat-card.salary-adjustment {
+            border-left-color: var(--warning);
+        }
+
+        .stat-card.students {
+            border-left-color: #8e44ad;
+        }
+
+        .stat-card.attendance {
+            border-left-color: var(--success);
+        }
+
+        .stat-card.fees {
+            border-left-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>AMBASSADORS</h1>
+                <p>Educational Complex Yaounde</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a class="nav-link active" onclick="switchSection('dashboard')"><span class="nav-icon">📊</span> Dashboard</a></li>
+                <li><a class="nav-link" onclick="switchSection('attendance')"><span class="nav-icon">✓</span> Attendance</a></li>
+                <li><a class="nav-link" onclick="switchSection('enrollment')"><span class="nav-icon">📝</span> Enrollment</a></li>
+                <li><a class="nav-link" onclick="switchSection('results')"><span class="nav-icon">📈</span> Results</a></li>
+                <li><a class="nav-link" onclick="switchSection('fees')"><span class="nav-icon">💳</span> Fees Management</a></li>
+                <li><a class="nav-link" onclick="switchSection('teachers')"><span class="nav-icon">👨‍🏫</span> Teachers</a></li>
+                <li><a class="nav-link" onclick="switchSection('salaries')"><span class="nav-icon">💰</span> Salaries</a></li>
+                <li><a class="nav-link" onclick="switchSection('reports')"><span class="nav-icon">📄</span> Reports</a></li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div class="success-message" id="successMessage"></div>
+
+            <!-- HEADER -->
+            <div class="header">
+                <div>
+                    <h2 id="sectionTitle">Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <input type="search" class="search-box" placeholder="Search...">
+                    <div class="user-profile">
+                        <div class="avatar">AD</div>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD SECTION -->
+            <section id="dashboard-section" class="active">
+                <div class="dashboard">
+                    <div class="stat-card students">
+                        <div class="stat-label">Total Students</div>
+                        <div class="stat-value">1,245</div>
+                        <div class="stat-change">↑ 12% from last month</div>
+                    </div>
+                    <div class="stat-card attendance">
+                        <div class="stat-label">Attendance Rate</div>
+                        <div class="stat-value">94.2%</div>
+                        <div class="stat-change">↑ 2.1% improvement</div>
+                    </div>
+                    <div class="stat-card fees">
+                        <div class="stat-label">Fees Collected</div>
+                        <div class="stat-value">42.5M XAF</div>
+                        <div class="stat-change">↑ 8.3% this month</div>
+                    </div>
+                    <div class="stat-card salary-adjustment">
+                        <div class="stat-label">Teachers on Payroll</div>
+                        <div class="stat-value">87</div>
+                        <div class="stat-change">3 absent this month</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Recent Activities</h3>
+                        <button class="btn-primary btn-small">View All</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Activity</th>
+                                <th>User</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2024-01-15</td>
+                                <td>Student Enrollment - Form 1A</td>
+                                <td>Mrs. Njock</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-14</td>
+                                <td>Teacher Salary Processed</td>
+                                <td>Admin</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-14</td>
+                                <td>Attendance Report - Form 2B</td>
+                                <td>Mr. Mouna</td>
+                                <td><span class="badge badge-info">Submitted</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-13</td>
+                                <td>Fees Payment - Invoice #1245</td>
+                                <td>Parent Portal</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ATTENDANCE SECTION -->
+            <section id="attendance-section">
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Student Attendance Management</h3>
+                        <div class="btn-group">
+                            <button class="btn-primary" onclick="openModal('attendanceModal')">Mark Attendance</button>
+                            <button class="btn-secondary" onclick="generateAttendanceReport()">Generate Report</button>
+                        </div>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(event, 'classTab')">By Class</div>
+                        <div class="tab" onclick="switchTab(event, 'studentTab')">By Student</div>
+                        <div class="tab" onclick="switchTab(event, 'monthlyTab')">Monthly Summary</div>
+                    </div>
+
+                    <div id="classTab" class="tab-content active">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Total Students</th>
+                                    <th>Present Today</th>
+                                    <th>Absent</th>
+                                    <th>Attendance %</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Form 1A</td>
+                                    <td>45</td>
+                                    <td>43</td>
+                                    <td>2</td>
+                                    <td>95.6%</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('attendanceModal')">Mark</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 1B</td>
+                                    <td>42</td>
+                                    <td>40</td>
+                                    <td>2</td>
+                                    <td>95.2%</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('attendanceModal')">Mark</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 2A</td>
+                                    <td>48</td>
+                                    <td>46</td>
+                                    <td>2</td>
+                                    <td>95.8%</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('attendanceModal')">Mark</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 3A</td>
+                                    <td>50</td>
+                                    <td>47</td>
+                                    <td>3</td>
+                                    <td>94.0%</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('attendanceModal')">Mark</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Upper 4A</td>
+                                    <td>44</td>
+                                    <td>42</td>
+                                    <td>2</td>
+                                    <td>95.5%</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('attendanceModal')">Mark</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Upper 5A</td>
+                                    <td>38</td>
+                                    <td>37</td>
+                                    <td>1</td>
+                                    <td>97.4%</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('attendanceModal')">Mark</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Upper 6A</td>
+                                    <td>41</td>
+                                    <td>40</td>
+                                    <td>1</td>
+                                    <td>97.6%</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('attendanceModal')">Mark</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="studentTab" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Matric Number</th>
+                                    <th>Class</th>
+                                    <th>Days Present</th>
+                                    <th>Days Absent</th>
+                                    <th>Attendance %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Kamga Claude</td>
+                                    <td>AEC2024001</td>
+                                    <td>Form 1A</td>
+                                    <td>78</td>
+                                    <td>2</td>
+                                    <td>97.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Nguyen Amelia</td>
+                                    <td>AEC2024002</td>
+                                    <td>Form 1A</td>
+                                    <td>76</td>
+                                    <td>4</td>
+                                    <td>95.0%</td>
+                                </tr>
+                                <tr>
+                                    <td>Tchoukeu David</td>
+                                    <td>AEC2024003</td>
+                                    <td>Form 2A</td>
+                                    <td>75</td>
+                                    <td>5</td>
+                                    <td>93.75%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="monthlyTab" class="tab-content">
+                        <h4 style="color: var(--primary-blue); margin-bottom: 16px;">January 2024 - Monthly Attendance Summary</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Week 1</th>
+                                    <th>Week 2</th>
+                                    <th>Week 3</th>
+                                    <th>Week 4</th>
+                                    <th>Monthly Avg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Form 1A</td>
+                                    <td><span class="badge badge-success">96%</span></td>
+                                    <td><span class="badge badge-success">95%</span></td>
+                                    <td><span class="badge badge-success">96%</span></td>
+                                    <td><span class="badge badge-success">95%</span></td>
+                                    <td><strong>95.5%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 2A</td>
+                                    <td><span class="badge badge-success">94%</span></td>
+                                    <td><span class="badge badge-success">95%</span></td>
+                                    <td><span class="badge badge-success">96%</span></td>
+                                    <td><span class="badge badge-success">95%</span></td>
+                                    <td><strong>95.0%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ENROLLMENT SECTION -->
+            <section id="enrollment-section">
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Student Enrollment Management</h3>
+                        <button class="btn-primary" onclick="openModal('enrollmentModal')">Enroll New Student</button>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(event, 'enrollByClass')">By Class</div>
+                        <div class="tab" onclick="switchTab(event, 'enrollBySpecialty')">By Specialty</div>
+                    </div>
+
+                    <div id="enrollByClass" class="tab-content active">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Total Enrolled</th>
+                                    <th>Class Capacity</th>
+                                    <th>Occupancy %</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Form 1A</td>
+                                    <td>45</td>
+                                    <td>50</td>
+                                    <td>90%</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('enrollmentModal')">Add</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 1B</td>
+                                    <td>42</td>
+                                    <td>50</td>
+                                    <td>84%</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('enrollmentModal')">Add</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 2A (Science)</td>
+                                    <td>28</td>
+                                    <td>40</td>
+                                    <td>70%</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('enrollmentModal')">Add</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 2B (Arts)</td>
+                                    <td>20</td>
+                                    <td>35</td>
+                                    <td>57%</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('enrollmentModal')">Add</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Upper 5A (Science)</td>
+                                    <td>32</td>
+                                    <td>40</td>
+                                    <td>80%</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('enrollmentModal')">Add</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="enrollBySpecialty" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Specialty/Trade</th>
+                                    <th>Level</th>
+                                    <th>Students</th>
+                                    <th>Capacity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Science (Physics, Chemistry, Biology)</td>
+                                    <td>Form 2-Upper 6</td>
+                                    <td>65</td>
+                                    <td>80</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Arts (Literature, Geography, Philosophy)</td>
+                                    <td>Form 2-Upper 6</td>
+                                    <td>45</td>
+                                    <td>60</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Commercial (Economics, Accounting, Business)</td>
+                                    <td>Form 2-Upper 6</td>
+                                    <td>38</td>
+                                    <td>50</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RESULTS SECTION -->
+            <section id="results-section">
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Academic Results Management</h3>
+                        <div class="btn-group">
+                            <button class="btn-primary" onclick="openModal('resultsModal')">Enter Results</button>
+                            <button class="btn-secondary" onclick="generateTranscript()">Generate Transcripts</button>
+                        </div>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(event, 'classResults')">By Class</div>
+                        <div class="tab" onclick="switchTab(event, 'studentResults')">By Student</div>
+                        <div class="tab" onclick="switchTab(event, 'termResults')">Term Rankings</div>
+                    </div>
+
+                    <div id="classResults" class="tab-content active">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Term</th>
+                                    <th>Total Students</th>
+                                    <th>Avg Score</th>
+                                    <th>Pass Rate</th>
+                                    <th>Top Student</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Form 1A</td>
+                                    <td>Term 3 2023</td>
+                                    <td>45</td>
+                                    <td>68.5</td>
+                                    <td>91.1%</td>
+                                    <td>Kamga Claude (82/100)</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('resultsModal')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 2A (Science)</td>
+                                    <td>Term 3 2023</td>
+                                    <td>28</td>
+                                    <td>72.3</td>
+                                    <td>89.3%</td>
+                                    <td>Tchang Lydia (86/100)</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('resultsModal')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Upper 6A (Science)</td>
+                                    <td>Term 3 2023</td>
+                                    <td>41</td>
+                                    <td>71.8</td>
+                                    <td>92.7%</td>
+                                    <td>Deng Martin (89/100)</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('resultsModal')">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="studentResults" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Matric No.</th>
+                                    <th>Class</th>
+                                    <th>Term 1</th>
+                                    <th>Term 2</th>
+                                    <th>Term 3</th>
+                                    <th>Avg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Kamga Claude</td>
+                                    <td>AEC2024001</td>
+                                    <td>Form 1A</td>
+                                    <td>78</td>
+                                    <td>80</td>
+                                    <td>82</td>
+                                    <td><strong>80.0</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Nguyen Amelia</td>
+                                    <td>AEC2024002</td>
+                                    <td>Form 1A</td>
+                                    <td>75</td>
+                                    <td>76</td>
+                                    <td>74</td>
+                                    <td><strong>75.0</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="termResults" class="tab-content">
+                        <h4 style="color: var(--primary-blue); margin-bottom: 16px;">Term 3 2023 - Class Rankings</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Student Name</th>
+                                    <th>Class</th>
+                                    <th>Total Score</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1</strong></td>
+                                    <td>Deng Martin</td>
+                                    <td>Upper 6A</td>
+                                    <td>89/100</td>
+                                    <td><span class="badge badge-success">A</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2</strong></td>
+                                    <td>Tchang Lydia</td>
+                                    <td>Form 2A</td>
+                                    <td>86/100</td>
+                                    <td><span class="badge badge-success">A</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3</strong></td>
+                                    <td>Kamga Claude</td>
+                                    <td>Form 1A</td>
+                                    <td>82/100</td>
+                                    <td><span class="badge badge-success">A-</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEES SECTION -->
+            <section id="fees-section">
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Student Fees Management</h3>
+                        <div class="btn-group">
+                            <button class="btn-primary" onclick="openModal('feesModal')">Record Payment</button>
+                            <button class="btn-secondary">Generate Invoices</button>
+                            <button class="btn-danger" onclick="generateFeesReport()">Delinquent List</button>
+                        </div>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(event, 'classFees')">By Class</div>
+                        <div class="tab" onclick="switchTab(event, 'studentFees')">Student Accounts</div>
+                    </div>
+
+                    <div id="classFees" class="tab-content active">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Students</th>
+                                    <th>Total Fees Due</th>
+                                    <th>Amount Paid</th>
+                                    <th>Outstanding</th>
+                                    <th>Collection %</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Form 1A</td>
+                                    <td>45</td>
+                                    <td>4.5M XAF</td>
+                                    <td>3.96M XAF</td>
+                                    <td>540K XAF</td>
+                                    <td><span class="badge badge-success">88%</span></td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('feesModal')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Form 2A (Science)</td>
+                                    <td>28</td>
+                                    <td>3.0M XAF</td>
+                                    <td>2.82M XAF</td>
+                                    <td>180K XAF</td>
+                                    <td><span class="badge badge-success">94%</span></td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('feesModal')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Upper 6A (Science)</td>
+                                    <td>41</td>
+                                    <td>4.1M XAF</td>
+                                    <td>3.69M XAF</td>
+                                    <td>410K XAF</td>
+                                    <td><span class="badge badge-warning">90%</span></td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('feesModal')">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="studentFees" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Matric No.</th>
+                                    <th>Class</th>
+                                    <th>Total Due</th>
+                                    <th>Paid</th>
+                                    <th>Outstanding</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Kamga Claude</td>
+                                    <td>AEC2024001</td>
+                                    <td>Form 1A</td>
+                                    <td>100K XAF</td>
+                                    <td>100K XAF</td>
+                                    <td>0 XAF</td>
+                                    <td><span class="badge badge-success">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Nguyen Amelia</td>
+                                    <td>AEC2024002</td>
+                                    <td>Form 1A</td>
+                                    <td>100K XAF</td>
+                                    <td>50K XAF</td>
+                                    <td>50K XAF</td>
+                                    <td><span class="badge badge-warning">Partial</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Tchoukeu David</td>
+                                    <td>AEC2024003</td>
+                                    <td>Form 2A</td>
+                                    <td>110K XAF</td>
+                                    <td>0 XAF</td>
+                                    <td>110K XAF</td>
+                                    <td><span class="badge badge-danger">Delinquent</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TEACHERS SECTION -->
+            <section id="teachers-section">
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Teachers Management</h3>
+                        <div class="btn-group">
+                            <button class="btn-primary" onclick="openModal('teacherModal')">Add Teacher</button>
+                            <button class="btn-secondary">View Schedule</button>
+                        </div>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(event, 'teacherList')">All Teachers</div>
+                        <div class="tab" onclick="switchTab(event, 'teacherAttendance')">Attendance</div>
+                        <div class="tab" onclick="switchTab(event, 'teacherLoads')">Class Load</div>
+                    </div>
+
+                    <div id="teacherList" class="tab-content active">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Subject/Department</th>
+                                    <th>Qualification</th>
+                                    <th>Employment Status</th>
+                                    <th>Joined</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mr. Mouna Paul</td>
+                                    <td>Mathematics</td>
+                                    <td>B.Sc Mathematics</td>
+                                    <td><span class="badge badge-success">Permanent</span></td>
+                                    <td>2020-09-01</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('teacherModal')">Edit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Mrs. Njock Maria</td>
+                                    <td>English</td>
+                                    <td>BA English</td>
+                                    <td><span class="badge badge-success">Permanent</span></td>
+                                    <td>2019-08-15</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('teacherModal')">Edit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Mr. Tanko Joseph</td>
+                                    <td>Physics</td>
+                                    <td>B.Sc Physics</td>
+                                    <td><span class="badge badge-info">Contract</span></td>
+                                    <td>2023-01-10</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('teacherModal')">Edit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Miss. Weh Christiana</td>
+                                    <td>Chemistry</td>
+                                    <td>B.Sc Chemistry</td>
+                                    <td><span class="badge badge-info">Contract</span></td>
+                                    <td>2023-03-20</td>
+                                    <td><button class="btn-primary btn-small" onclick="openModal('teacherModal')">Edit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="teacherAttendance" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Teacher Name</th>
+                                    <th>Days Present</th>
+                                    <th>Days Absent</th>
+                                    <th>Days on Leave</th>
+                                    <th>Attendance %</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mr. Mouna Paul</td>
+                                    <td>42</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>100%</td>
+                                    <td><span class="badge badge-success">Excellent</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mrs. Njock Maria</td>
+                                    <td>41</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>97.6%</td>
+                                    <td><span class="badge badge-success">Excellent</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mr. Tanko Joseph</td>
+                                    <td>38</td>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>90.5%</td>
+                                    <td><span class="badge badge-warning">Good</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Miss. Weh Christiana</td>
+                                    <td>35</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>83.3%</td>
+                                    <td><span class="badge badge-warning">Fair</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="teacherLoads" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Teacher Name</th>
+                                    <th>Classes Assigned</th>
+                                    <th>Total Periods/Week</th>
+                                    <th>Students Taught</th>
+                                    <th>Load Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mr. Mouna Paul</td>
+                                    <td>Form 1A, Form 1B, Form 2A</td>
+                                    <td>12</td>
+                                    <td>115</td>
+                                    <td><span class="badge badge-success">Normal</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mrs. Njock Maria</td>
+                                    <td>Form 1A, Form 1B, Upper 6A</td>
+                                    <td>12</td>
+                                    <td>128</td>
+                                    <td><span class="badge badge-warning">High</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SALARIES SECTION -->
+            <section id="salaries-section">
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Teachers Salary Management</h3>
+                        <div class="btn-group">
+                            <button class="btn-primary" onclick="calculateAndProcessSalaries()">Process Monthly Salaries</button>
+                            <button class="btn-secondary" onclick="generatePayslips()">Generate Payslips</button>
+                            <button class="btn-warning" onclick="reviewSalaryAdjustments()">Review Adjustments</button>
+                        </div>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(event, 'salarySummary')">Monthly Summary</div>
+                        <div class="tab" onclick="switchTab(event, 'individualSalary')">Individual Records</div>
+                        <div class="tab" onclick="switchTab(event, 'absenceDeductions')">Absence Deductions</div>
+                    </div>
+
+                    <div id="salarySummary" class="tab-content active">
+                        <div style="background: var(--sky-blue); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                            <p><strong>Processing Month:</strong> January 2024</p>
+                            <p><strong>Total Teachers:</strong> 87 | <strong>Total Payroll:</strong> 18.5M XAF</p>
+                            <p><strong>Salary Adjustments:</strong> 3 teachers (absences detected)</p>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Teacher Name</th>
+                                    <th>Base Salary</th>
+                                    <th>Days Absent</th>
+                                    <th>Deduction (1%/day)</th>
+                                    <th>Adjusted Salary</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mr. Mouna Paul</td>
+                                    <td>250,000 XAF</td>
+                                    <td>0</td>
+                                    <td>0 XAF</td>
+                                    <td><strong>250,000 XAF</strong></td>
+                                    <td><span class="badge badge-success">Full</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mrs. Njock Maria</td>
+                                    <td>250,000 XAF</td>
+                                    <td>1</td>
+                                    <td>2,500 XAF</td>
+                                    <td><strong>247,500 XAF</strong></td>
+                                    <td><span class="badge badge-warning">Adjusted</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mr. Tanko Joseph</td>
+                                    <td>200,000 XAF</td>
+                                    <td>2</td>
+                                    <td>4,000 XAF</td>
+                                    <td><strong>196,000 XAF</strong></td>
+                                    <td><span class="badge badge-warning">Adjusted</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Miss. Weh Christiana</td>
+                                    <td>200,000 XAF</td>
+                                    <td>3</td>
+                                    <td>6,000 XAF</td>
+                                    <td><strong>194,000 XAF</strong></td>
+                                    <td><span class="badge badge-danger">Adjusted</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="individualSalary" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Teacher Name</th>
+                                    <th>Department</th>
+                                    <th>Position</th>
+                                    <th>Base Salary</th>
+                                    <th>Allowances</th>
+                                    <th>Net Salary</th>
+                                    <th>Payment Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mr. Mouna Paul</td>
+                                    <td>Mathematics</td>
+                                    <td>Teacher</td>
+                                    <td>250,000 XAF</td>
+                                    <td>50,000 XAF</td>
+                                    <td>300,000 XAF</td>
+                                    <td>2024-01-31</td>
+                                </tr>
+                                <tr>
+                                    <td>Mrs. Njock Maria</td>
+                                    <td>English</td>
+                                    <td>Senior Teacher</td>
+                                    <td>250,000 XAF</td>
+                                    <td>75,000 XAF</td>
+                                    <td>322,500 XAF</td>
+                                    <td>2024-01-31</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="absenceDeductions" class="tab-content">
+                        <h4 style="color: var(--primary-blue); margin-bottom: 16px;">Automatic Salary Adjustments Due to Absences - January 2024</h4>
+                        <div style="background: #fff3cd; padding: 15px; border-left: 4px solid var(--warning); border-radius: 6px; margin-bottom: 20px;">
+                            <strong>⚠️ Deduction Rule:</strong> 1% of monthly salary per day of unjustified absence | Maximum: 5% per month
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Teacher Name</th>
+                                    <th>Department</th>
+                                    <th>Absence Dates</th>
+                                    <th>Days Absent</th>
+                                    <th>Base Salary</th>
+                                    <th>Deduction %</th>
+                                    <th>Amount Deducted</th>
+                                    <th>Final Salary</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mr. Tanko Joseph</td>
+                                    <td>Physics</td>
+                                    <td>2024-01-08, 2024-01-22</td>
+                                    <td>2</td>
+                                    <td>200,000 XAF</td>
+                                    <td>2%</td>
+                                    <td>4,000 XAF</td>
+                                    <td>196,000 XAF</td>
+                                </tr>
+                                <tr>
+                                    <td>Miss. Weh Christiana</td>
+                                    <td>Chemistry</td>
+                                    <td>2024-01-05, 2024-01-12, 2024-01-29</td>
+                                    <td>3</td>
+                                    <td>200,000 XAF</td>
+                                    <td>3%</td>
+                                    <td>6,000 XAF</td>
+                                    <td>194,000 XAF</td>
+                                </tr>
+                                <tr>
+                                    <td>Mr. Benson Akum</td>
+                                    <td>History</td>
+                                    <td>2024-01-03, 2024-01-10, 2024-01-17, 2024-01-24, 2024-01-31</td>
+                                    <td>5</td>
+                                    <td>220,000 XAF</td>
+                                    <td>5%</td>
+                                    <td>11,000 XAF</td>
+                                    <td>209,000 XAF</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REPORTS SECTION -->
+            <section id="reports-section">
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Management Reports</h3>
+                        <button class="btn-primary" onclick="generateComprehensiveReport()">Generate All Reports</button>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(event, 'reportTypes')">Report Types</div>
+                        <div class="tab" onclick="switchTab(event, 'reportHistory')">Recent Reports</div>
+                    </div>
+
+                    <div id="reportTypes" class="tab-content active">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px;">
+                            <div style="padding: 20px; border: 2px solid var(--sky-blue); border-radius: 8px; cursor: pointer;" onclick="alert('Generating Attendance Report...')">
+                                <h4 style="color: var(--primary-blue); margin-bottom: 10px;">📊 Monthly Attendance Report</h4>
+                                <p style="font-size: 13px; color: #666;">Student and teacher attendance summary by class and department</p>
+                                <button class="btn-primary btn-small" style="margin-top: 10px;">Generate PDF</button>
+                            </div>
+                            <div style="padding: 20px; border: 2px solid var(--sky-blue); border-radius: 8px; cursor: pointer;" onclick="alert('Generating Academic Report...')">
+                                <h4 style="color: var(--primary-blue); margin-bottom: 10px;">📈 Academic Performance Report</h4>
+                                <p style="font-size: 13px; color: #666;">Class-wise and student-wise exam results analysis</p>
+                                <button class="btn-primary btn-small" style="margin-top: 10px;">Generate PDF</button>
+                            </div>
+                            <div style="padding: 20px; border: 2px solid var(--sky-blue); border-radius: 8px; cursor: pointer;" onclick="alert('Generating Financial Report...')">
+                                <h4 style="color: var(--primary-blue); margin-bottom: 10px;">💰 Financial Report</h4>
+                                <p style="font-size: 13px; color: #666;">Fee collection, outstanding balances, and payment trends</p>
+                                <button class="btn-primary btn-small" style="margin-top: 10px;">Generate PDF</button>
+                            </div>
+                            <div style="padding: 20px; border: 2px solid var(--sky-blue); border-radius: 8px; cursor: pointer;" onclick="alert('Generating Payroll Report...')">
+                                <h4 style="color: var(--primary-blue); margin-bottom: 10px;">💳 Payroll & Salary Report</h4>
+                                <p style="font-size: 13px; color: #666;">Monthly salary adjustments, deductions, and teacher records</p>
+                                <button class="btn-primary btn-small" style="margin-top: 10px;">Generate PDF</button>
+                            </div>
+                            <div style="padding: 20px; border: 2px solid var(--sky-blue); border-radius: 8px; cursor: pointer;" onclick="alert('Generating Enrollment Report...')">
+                                <h4 style="color: var(--primary-blue); margin-bottom: 10px;">📝 Enrollment Report</h4>
+                                <p style="font-size: 13px; color: #666;">Students by class, specialization, and capacity utilization</p>
+                                <button class="btn-primary btn-small" style="margin-top: 10px;">Generate PDF</button>
+                            </div>
+                            <div style="padding: 20px; border: 2px solid var(--sky-blue); border-radius: 8px; cursor: pointer;" onclick="alert('Generating Summary Report...')">
+                                <h4 style="color: var(--primary-blue); margin-bottom: 10px;">📋 Summary Report</h4>
+                                <p style="font-size: 13px; color: #666;">Comprehensive overview of all operations for management review</p>
+                                <button class="btn-primary btn-small" style="margin-top: 10px;">Generate PDF</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="reportHistory" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Report Name</th>
+                                    <th>Generated Date</th>
+                                    <th>Period</th>
+                                    <th>Generated By</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monthly Attendance Report - January 2024</td>
+                                    <td>2024-02-01</td>
+                                    <td>January 2024</td>
+                                    <td>Admin</td>
+                                    <td><button class="btn-primary btn-small">Download</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Academic Performance Report - Term 3 2023</td>
+                                    <td>2024-01-30</td>
+                                    <td>Term 3 2023</td>
+                                    <td>Admin</td>
+                                    <td><button class="btn-primary btn-small">Download</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Payroll Report - December 2023</td>
+                                    <td>2024-01-15</td>
+                                    <td>December 2023</td>
+                                    <td>Finance Manager</td>
+                                    <td><button class="btn-primary btn-small">Download</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    
+    <!-- Attendance Modal -->
+    <div id="attendanceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('attendanceModal')">&times;</span>
+            <div class="modal-header">Mark Student Attendance</div>
+            <form onsubmit="handleSubmit(event, 'attendance')">
+                <div class="form-group">
+                    <label>Select Class</label>
+                    <select required>
+                        <option>Form 1A</option>
+                        <option>Form 1B</option>
+                        <option>Form 2A (Science)</option>
+                        <option>Form 2B (Arts)</option>
+                        <option>Form 3A</option>
+                        <option>Upper 4A</option>
+                        <option>Upper 5A (Science)</option>
+                        <option>Upper 5B (Arts)</option>
+                        <option>Upper 6A</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Attendance Date</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Students Present</label>
+                    <textarea placeholder="Enter list of students present (comma separated)" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Students Absent</label>
+                    <textarea placeholder="Enter list of students absent (comma separated)"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Submit Attendance</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enrollment Modal -->
+    <div id="enrollmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('enrollmentModal')">&times;</span>
+            <div class="modal-header">Enroll New Student</div>
+            <form onsubmit="handleSubmit(event, 'enrollment')">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" placeholder="Last Name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select required>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Class</label>
+                    <select required>
+                        <option>Form 1A</option>
+                        <option>Form 1B</option>
+                        <option>Form 2A (Science)</option>
+                        <option>Form 2B (Arts)</option>
+                        <option>Form 3A</option>
+                        <option>Upper 4A</option>
+                        <option>Upper 5A (Science)</option>
+                        <option>Upper 5B (Arts)</option>
+                        <option>Upper 6A</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Specialty/Trade (if applicable)</label>
+                    <select>
+                        <option>General</option>
+                        <option>Science (Physics, Chemistry, Biology)</option>
+                        <option>Arts (Literature, Geography, Philosophy)</option>
+                        <option>Commercial (Economics, Accounting, Business)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Parent Contact</label>
+                    <input type="email" placeholder="Parent Email" required>
+                </div>
+                <button type="submit" class="btn-primary">Enroll Student</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('resultsModal')">&times;</span>
+            <div class="modal-header">Enter Student Results</div>
+            <form onsubmit="handleSubmit(event, 'results')">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Class</label>
+                        <select required>
+                            <option>Form 1A</option>
+                            <option>Form 2A (Science)</option>
+                            <option>Upper 6A</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Term</label>
+                        <select required>
+                            <option>Term 1</option>
+                            <option>Term 2</option>
+                            <option>Term 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" placeholder="Student Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Score (0-100)</label>
+                        <input type="number" min="0" max="100" placeholder="Score" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Comments</label>
+                    <textarea placeholder="Teacher comments"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Submit Results</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Fees Modal -->
+    <div id="feesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('feesModal')">&times;</span>
+            <div class="modal-header">Record Fee Payment</div>
+            <form onsubmit="handleSubmit(event, 'fees')">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" placeholder="Student Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Matric Number</label>
+                        <input type="text" placeholder="e.g., AEC2024001" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Amount Paid (XAF)</label>
+                        <input type="number" placeholder="Amount" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Date</label>
+                        <input type="date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select required>
+                        <option>Cash</option>
+                        <option>Bank Transfer</option>
+                        <option>Mobile Money</option>
+                        <option>Cheque</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Reference/Receipt No.</label>
+                    <input type="text" placeholder="Reference Number" required>
+                </div>
+                <button type="submit" class="btn-primary">Record Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Teacher Modal -->
+    <div id="teacherModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('teacherModal')">&times;</span>
+            <div class="modal-header">Add/Edit Teacher</div>
+            <form onsubmit="handleSubmit(event, 'teacher')">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" placeholder="Last Name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Subject/Department</label>
+                        <select required>
+                            <option>Mathematics</option>
+                            <option>English</option>
+                            <option>Physics</option>
+                            <option>Chemistry</option>
+                            <option>Biology</option>
+                            <option>History</option>
+                            <option>Geography</option>
+                            <option>French</option>
+                            <option>Literature</option>
+                            <option>Philosophy</option>
+                            <option>Economics</option>
+                            <option>Accounting</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Qualification</label>
+                        <input type="text" placeholder="e.g., B.Sc Mathematics" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Employment Status</label>
+                        <select required>
+                            <option>Permanent</option>
+                            <option>Contract</option>
+                            <option>Part-time</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Base Salary (XAF)</label>
+                        <input type="number" placeholder="Salary" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <button type="submit" class="btn-primary">Save Teacher</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Navigation and Section Switching
+        function switchSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show selected section
+            const selectedSection = document.getElementById(sectionId + '-section');
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+            }
+
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.closest('.nav-link').classList.add('active');
+
+            // Update header title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'attendance': 'Attendance Management',
+                'enrollment': 'Student Enrollment',
+                'results': 'Academic Results',
+                'fees': 'Fees Management',
+                'teachers': 'Teachers Management',
+                'salaries': 'Salary Management',
+                'reports': 'Management Reports'
+            };
+            document.getElementById('sectionTitle').textContent = titles[sectionId] || 'Dashboard';
+        }
+
+        // Tab Switching
+        function switchTab(event, tabId) {
+            // Get all tabs in this section
+            const tabContainer = event.target.parentElement;
+            const tabs = tabContainer.querySelectorAll('.tab');
+            const contents = tabContainer.parentElement.querySelectorAll('.tab-content');
+
+            // Deactivate all tabs and hide content
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Activate clicked tab
+            event.target.classList.add('active');
+            const content = document.getElementById(tabId);
+            if (content) {
+                content.classList.add('active');
+            }
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Form Submission Handler
+        function handleSubmit(event, formType) {
+            event.preventDefault();
+            
+            const messages = {
+                'attendance': '✓ Attendance marked successfully!',
+                'enrollment': '✓ Student enrolled successfully!',
+                'results': '✓ Results entered successfully!',
+                'fees': '✓ Payment recorded successfully!',
+                'teacher': '✓ Teacher saved successfully!'
+            };
+
+            showSuccessMessage(messages[formType] || 'Operation completed!');
+            closeModal(event.target.closest('.modal').id);
+            event.target.reset();
+        }
+
+        // Success Message Display
+        function showSuccessMessage(message) {
+            const msgElement = document.getElementById('successMessage');
+            msgElement.textContent = message;
+            msgElement.classList.add('show');
+            
+            setTimeout(() => {
+                msgElement.classList.remove('show');
+            }, 3000);
+        }
+
+        // Report Generation Functions
+        function generateAttendanceReport() {
+            showSuccessMessage('📊 Attendance report generated and ready for download!');
+        }
+
+        function generateFeesReport() {
+            showSuccessMessage('📄 Delinquent student list generated!');
+        }
+
+        function generatePayslips() {
+            showSuccessMessage('💳 Payslips generated for all teachers!');
+        }
+
+        function generateTranscript() {
+            showSuccessMessage('📝 Student transcripts generated!');
+        }
+
+        function calculateAndProcessSalaries() {
+            showSuccessMessage('✓ Monthly salaries calculated with absence deductions applied!');
+        }
+
+        function reviewSalaryAdjustments() {
+            showSuccessMessage('📊 Salary adjustments reviewed. View Absence Deductions tab for details.');
+        }
+
+        function generateComprehensiveReport() {
+            showSuccessMessage('📋 All management reports generated successfully!');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide all sections except dashboard
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('dashboard-section').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
